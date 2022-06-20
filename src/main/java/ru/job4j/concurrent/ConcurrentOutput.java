@@ -12,6 +12,7 @@ public class ConcurrentOutput {
         first.start();
         second.start();
         System.out.println(Thread.currentThread().getName());
+
     }
 
 }
