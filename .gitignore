@@ -1,2 +1,6 @@
 # Project exclude paths
 /target/
+
+.idea
+.gitignore
+job4j_threads.iml
