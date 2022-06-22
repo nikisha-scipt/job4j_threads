@@ -1,22 +1,42 @@
 package ru.job4j.concurrent;
 
-public class Wget {
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 
-    public static void main(String[] args) {
-        Thread thread = new Thread(
-                () -> {
-                    for (int i = 0; i <= 100; i++) {
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.print("\rLoading : " + i  + "%");
-                    }
-                }
-        );
-        thread.start();
+public class Wget implements Runnable {
 
+    private final String url;
+    private final int speed;
+
+    public Wget(String url, int speed) {
+        this.url = url;
+        this.speed = speed;
     }
 
+    @Override
+    public void run() {
+        try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
+             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("pom_temp.xml"))) {
+            byte[] downloadBuffer = new byte[speed];
+            int byteCount;
+            while ((byteCount = in.read(downloadBuffer, 0, 1024)) != -1) {
+                out.write(downloadBuffer, 0, byteCount);
+                Thread.sleep(1000);
+            }
+            System.out.printf("%s access download%n", Thread.currentThread().getName());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        String url = args[0];
+        int speed = Integer.parseInt(args[1]);
+        Thread wget = new Thread(new Wget(url, speed));
+        wget.start();
+        wget.join();
+    }
 }
