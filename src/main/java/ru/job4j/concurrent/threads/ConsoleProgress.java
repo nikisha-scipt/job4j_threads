@@ -12,18 +12,15 @@ public class ConsoleProgress implements Runnable {
 
     @Override
     public void run() {
+        String[] symbols = {"/", "\\", "|"};
         while (!Thread.currentThread().isInterrupted()) {
-            for (int i = 0; i <= 100; i++) {
-                try {
-                    if (i % 2 == 0) {
-                        System.out.print("\rload: /");
-                    } else {
-                        System.out.print("\rload: \\");
-                    }
+            try {
+                for (String symbol : symbols) {
+                    System.out.print("\r load: " + symbol);
                     Thread.sleep(500);
-                } catch (Exception e) {
-                    Thread.currentThread().interrupt();
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
             System.out.print("\rload: end");
         }
