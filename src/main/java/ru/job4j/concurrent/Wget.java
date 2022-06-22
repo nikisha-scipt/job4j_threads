@@ -2,7 +2,7 @@ package ru.job4j.concurrent;
 
 public class Wget {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Thread thread = new Thread(
                 () -> {
                     for (int i = 0; i <= 100; i++) {
@@ -16,10 +16,7 @@ public class Wget {
                 }
         );
         thread.start();
-        Thread.sleep(3000);
-        if (thread.getState() == Thread.State.TERMINATED) {
-            System.out.printf("%n%s ended", Thread.currentThread().getName());
-        }
+
     }
 
 }
