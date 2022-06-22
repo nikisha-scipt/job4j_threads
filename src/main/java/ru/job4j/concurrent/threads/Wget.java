@@ -1,4 +1,4 @@
-package ru.job4j.concurrent;
+package ru.job4j.concurrent.threads;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -26,7 +26,7 @@ public class Wget implements Runnable {
                 out.write(downloadBuffer, 0, byteCount);
                 Thread.sleep(1000);
             }
-            System.out.printf("%s access download%n", Thread.currentThread().getName());
+            System.out.printf("%s successfully download%n", Thread.currentThread().getName());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
