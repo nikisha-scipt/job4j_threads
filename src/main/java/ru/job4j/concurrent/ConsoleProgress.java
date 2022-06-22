@@ -20,8 +20,9 @@ public class ConsoleProgress implements Runnable {
                     } else {
                         System.out.print("\rload: \\");
                     }
+                    Thread.sleep(500);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
             System.out.print("\rload: end");
