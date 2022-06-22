@@ -23,7 +23,7 @@ public final class ParseFile {
         StringBuilder result = new StringBuilder();
         try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(file))) {
             int data;
-            while ((data = input.read()) > 0)  {
+            while ((data = input.read()) != -1)  {
                 if (filter.test((char) data)) {
                     result.append((char) data);
                 }
@@ -32,18 +32,6 @@ public final class ParseFile {
             e.printStackTrace();
         }
         return result.toString();
-    }
-
-    private final class SaveFile {
-        public synchronized void saveContent(String content) {
-            try (BufferedOutputStream o = new BufferedOutputStream(new FileOutputStream(file))) {
-                for (int i = 0; i < content.length(); i++) {
-                    o.write(content.charAt(i));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }
