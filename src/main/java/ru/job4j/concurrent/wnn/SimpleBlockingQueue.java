@@ -1,5 +1,6 @@
 package ru.job4j.concurrent.wnn;
 
+import lombok.Data;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
@@ -7,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 @ThreadSafe
+@Data
 public class SimpleBlockingQueue<T> {
 
     private final int count;
@@ -19,7 +21,7 @@ public class SimpleBlockingQueue<T> {
     private final Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) throws InterruptedException {
-        if (queue.size() >= count) {
+        while (queue.size() >= count) {
             wait();
         }
         queue.offer(value);
@@ -31,7 +33,7 @@ public class SimpleBlockingQueue<T> {
             try {
                 wait();
             } catch (InterruptedException e) {
-                throw new IllegalArgumentException();
+                Thread.currentThread().interrupt();
             }
         }
         T rsl = queue.poll();
