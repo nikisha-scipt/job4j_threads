@@ -9,20 +9,24 @@ import java.util.Map;
 
 @ThreadSafe
 @ToString(exclude = {"readLock"})
+@Data
 public class UserStorage {
 
-    @GuardedBy("this")
+    @GuardedBy("readLock")
     private final Object readLock = new Object();
-    private Map<Integer, User> users = new HashMap<>();
+    private final Map<Integer, User> users = new HashMap<>();
 
+    @Synchronized("readLock")
     public boolean add(User user) {
-        return users.putIfAbsent(user.getId(), user) != null;
+        return users.putIfAbsent(user.getId(), user) == null;
     }
 
+    @Synchronized("readLock")
     public boolean update(User user) {
         return users.replace(user.getId(), user) != null;
     }
 
+    @Synchronized("readLock")
     public boolean delete(User user) {
         return users.remove(user.getId()) != null;
     }
@@ -31,23 +35,18 @@ public class UserStorage {
     public void transfer(int fromId, int toId, int amount) {
         User fromUser = users.get(fromId);
         User toUser = users.get(toId);
-        toUser.setAmount(toUser.getAmount() + amount);
-        fromUser.setAmount(fromUser.getAmount() - amount);
-    }
-
-    @Data
-    public static final class User {
-
-        private int id;
-        private String name;
-        private int amount;
-
-        public User(int id, String name, int amount) {
-            this.id = id;
-            this.name = name;
-            this.amount = amount;
+        assert fromUser != null;
+        assert toUser != null;
+        if (fromUser.getAmount() >= amount) {
+            toUser.setAmount(toUser.getAmount() + amount);
+            fromUser.setAmount(fromUser.getAmount() - amount);
+        } else {
+            throw new IllegalArgumentException("From user not has money");
         }
     }
+
+
+
 
     public static void main(String[] args) {
         UserStorage store = new UserStorage();
