@@ -1,4 +1,4 @@
-package ru.job4j.concurrent.threads;
+package ru.job4j.concurrent.threads.wget;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,10 +24,18 @@ public class Wget implements Runnable {
              BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             byte[] downloadBuffer = new byte[1024];
             int byteCount;
+            int downloadData = 0;
             while ((byteCount = in.read(downloadBuffer, 0, 1024)) != -1) {
+                long start = System.currentTimeMillis();
+                long currentStart = System.currentTimeMillis();
                 out.write(downloadBuffer, 0, byteCount);
-                if (System.currentTimeMillis() < speed) {
-                    Thread.sleep(1000);
+                downloadData += byteCount;
+                if (downloadData == speed) {
+                    start -= System.currentTimeMillis();
+                }
+                if (start + currentStart < 1000) {
+                    Thread.sleep(1000 + (start - currentStart));
+                    downloadData = 0;
                 }
             }
             System.out.printf("%s successfully download%n", Thread.currentThread().getName());
@@ -36,43 +44,6 @@ public class Wget implements Runnable {
         }
     }
 
-    private static class Validation {
-
-        private final String[] args;
-
-        public Validation(String[] args) {
-            this.args = args;
-        }
-
-        private boolean checkSize() {
-            return args.length == 3;
-        }
-
-        private boolean checkUrl() {
-            return args[0].startsWith("http");
-        }
-
-        private boolean checkSpeed() {
-            return Integer.parseInt(args[1]) != 0;
-        }
-
-        private boolean checkFile() {
-            return args[2].contains(".");
-        }
-
-        public boolean isValid() {
-            try {
-                checkSize();
-                checkUrl();
-                checkSpeed();
-                checkFile();
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Format: http://file.txt 5 file.txt");
-            }
-            return true;
-        }
-
-    }
 
     public static void main(String[] args) throws InterruptedException {
         Validation valid = new Validation(args);
