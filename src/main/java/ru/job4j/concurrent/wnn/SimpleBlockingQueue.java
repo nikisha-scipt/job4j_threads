@@ -9,11 +9,17 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
 
+    private final int count;
+
+    public SimpleBlockingQueue(int count) {
+        this.count = count;
+    }
+
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) throws InterruptedException {
-        while (queue.size() >= 5) {
+        if (queue.size() >= count) {
             wait();
         }
         queue.offer(value);
@@ -21,15 +27,16 @@ public class SimpleBlockingQueue<T> {
     }
 
     public synchronized T poll() {
-        while (queue.isEmpty()) {
+        if (queue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                throw new IllegalArgumentException();
             }
         }
+        T rsl = queue.poll();
         notify();
-        return queue.poll();
+        return rsl;
     }
 
     public int getSize() {

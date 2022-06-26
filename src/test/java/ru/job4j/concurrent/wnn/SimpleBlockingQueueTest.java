@@ -13,7 +13,7 @@ public class SimpleBlockingQueueTest {
 
     @Before
     public void init() {
-        this.queue = new SimpleBlockingQueue<>();
+        this.queue = new SimpleBlockingQueue<>(5);
     }
 
     @Test
