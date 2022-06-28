@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class Wget implements Runnable {
 
@@ -25,13 +26,17 @@ public class Wget implements Runnable {
             byte[] downloadBuffer = new byte[1024];
             int byteCount;
             int downloadData = 0;
+            long timeApplication = System.currentTimeMillis();
             while ((byteCount = in.read(downloadBuffer, 0, 1024)) != -1) {
                 out.write(downloadBuffer, 0, byteCount);
                 downloadData += byteCount;
                 if (downloadData >= speed) {
-                    Thread.sleep(1000);
-                    downloadData = 0;
+                    if (System.currentTimeMillis() + timeApplication > 1000) {
+                        Thread.sleep(1000);
+                        downloadData = 0;
+                    }
                 }
+                timeApplication = 0;
             }
             System.out.printf("%s successfully download%n", Thread.currentThread().getName());
         } catch (IOException | InterruptedException e) {
