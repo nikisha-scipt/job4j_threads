@@ -25,17 +25,12 @@ public class Wget implements Runnable {
             byte[] downloadBuffer = new byte[1024];
             int byteCount;
             int downloadData = 0;
-            long start = System.currentTimeMillis();
             while ((byteCount = in.read(downloadBuffer, 0, 1024)) != -1) {
                 out.write(downloadBuffer, 0, byteCount);
                 downloadData += byteCount;
                 if (downloadData >= speed) {
-                    long currentStart = System.currentTimeMillis() - start;
-                    if (currentStart + start < 1000) {
-                        Thread.sleep(1000 - (start - currentStart));
-                        downloadData = 0;
-                        start = 0;
-                    }
+                    Thread.sleep(1000);
+                    downloadData = 0;
                 }
             }
             System.out.printf("%s successfully download%n", Thread.currentThread().getName());
