@@ -35,13 +35,12 @@ public class UserStorage {
     public void transfer(int fromId, int toId, int amount) {
         User fromUser = users.get(fromId);
         User toUser = users.get(toId);
-        assert fromUser != null;
-        assert toUser != null;
+        if (fromUser == null || toUser == null) {
+            throw new IllegalArgumentException("User is null");
+        }
         if (fromUser.getAmount() >= amount) {
             toUser.setAmount(toUser.getAmount() + amount);
             fromUser.setAmount(fromUser.getAmount() - amount);
-        } else {
-            throw new IllegalArgumentException("From user not has money");
         }
     }
 

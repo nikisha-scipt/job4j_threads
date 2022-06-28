@@ -62,7 +62,7 @@ public class UserStorageTest {
         assertThat(storage.getUsers().get(1).getAmount(), is(50));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void whenAddUsersVariousThreadAndTransfer50Exception() throws InterruptedException {
         Thread one = new Thread(
                 () -> {
@@ -81,6 +81,7 @@ public class UserStorageTest {
         one.join();
         two.join();
         storage.transfer(1, 2, 50);
+        assertThat(storage.getUsers().get(1).getAmount(), is(20));
     }
 
 }
