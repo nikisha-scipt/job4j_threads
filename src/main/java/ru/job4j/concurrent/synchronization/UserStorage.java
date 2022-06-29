@@ -45,8 +45,6 @@ public class UserStorage {
     }
 
 
-
-
     public static void main(String[] args) {
         UserStorage store = new UserStorage();
         store.add(new User(1, "Danil", 100));

@@ -7,7 +7,6 @@ public class ConsoleProgress implements Runnable {
         progress.start();
         Thread.sleep(5000);
         progress.interrupt();
-
     }
 
     @Override

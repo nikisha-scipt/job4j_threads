@@ -17,6 +17,7 @@ public class CountBarrier {
         }
     }
 
+
     public void await() {
         synchronized (monitor) {
             try {

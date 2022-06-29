@@ -1,7 +1,7 @@
 package ru.job4j.concurrent.synchronization;
 
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class CountTest {
