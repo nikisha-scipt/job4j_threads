@@ -26,6 +26,6 @@ public class Cache {
     }
 
     public Map<Integer, Base> getMemory() {
-        return memory;
+        return Map.copyOf(memory);
     }
 }
