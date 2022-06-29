@@ -27,13 +27,9 @@ public class SimpleBlockingQueue<T> {
         notify();
     }
 
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         if (queue.isEmpty()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait();
         }
         T rsl = queue.poll();
         notify();
