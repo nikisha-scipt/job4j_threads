@@ -1,9 +1,6 @@
 package ru.job4j.concurrent.threads.wget;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -31,12 +28,13 @@ public class Wget implements Runnable {
                 out.write(downloadBuffer, 0, byteCount);
                 downloadData += byteCount;
                 if (downloadData >= speed) {
-                    if (System.currentTimeMillis() + timeApplication > 1000) {
-                        Thread.sleep(1000);
-                        downloadData = 0;
+                    long interval = System.currentTimeMillis() - timeApplication;
+                    if (interval < 1000) {
+                        Thread.sleep(1000 - interval);
                     }
+                    timeApplication = System.currentTimeMillis();
+                    downloadData = 0;
                 }
-                timeApplication = 0;
             }
             System.out.printf("%s successfully download%n", Thread.currentThread().getName());
         } catch (IOException | InterruptedException e) {
