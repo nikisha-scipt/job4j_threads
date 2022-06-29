@@ -12,7 +12,6 @@ public class CASCountTest {
     @Before
     public void init() {
         casCount = new CASCount();
-        casCount.startCountIncrement(0);
     }
 
     @Test
