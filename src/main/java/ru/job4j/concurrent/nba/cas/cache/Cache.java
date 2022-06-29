@@ -17,7 +17,7 @@ public class Cache {
             if (oldVersion != model.getVersion()) {
                 throw new OptimisticException("Versions two Base not equal");
             }
-            return new Base(stored.getId(), ++oldVersion);
+            return new Base(stored.getId(), oldVersion + 1);
         }) != null;
     }
 
@@ -25,4 +25,7 @@ public class Cache {
         memory.remove(model.getId(), model);
     }
 
+    public Map<Integer, Base> getMemory() {
+        return memory;
+    }
 }

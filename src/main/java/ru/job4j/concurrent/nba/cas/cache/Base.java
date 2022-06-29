@@ -1,5 +1,7 @@
 package ru.job4j.concurrent.nba.cas.cache;
 
+import java.util.Objects;
+
 public class Base {
 
     private final int id;
@@ -25,5 +27,22 @@ public class Base {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Base base = (Base) o;
+        return id == base.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
