@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -35,7 +34,11 @@ public class SimpleBlockingQueueTest {
         });
         Thread consumer = new Thread(() -> {
             for (int i = 0; i < 10; i++) {
-                queue.poll();
+                try {
+                    queue.poll();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         producer.start();

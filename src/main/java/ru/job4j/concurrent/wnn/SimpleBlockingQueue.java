@@ -31,6 +31,7 @@ public class SimpleBlockingQueue<T> {
         if (queue.isEmpty()) {
             wait();
         }
+
         T rsl = queue.poll();
         notify();
         return rsl;
