@@ -30,14 +30,11 @@ public class EmailNotification {
         }
     }
 
-    public ExecutorService getServices() {
-        return services;
-    }
 
     public static void main(String[] args) {
         User user = new User("Danil", "danil.nikisha@mail.ru");
         EmailNotification notification = new EmailNotification();
-        notification.getServices().submit(() -> {
+        notification.services.submit(() -> {
             String subject = user.getName();
             String body = notification.emailTo(user);
             String email = user.getEmail();
