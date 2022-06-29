@@ -14,9 +14,6 @@ public class CASCount {
     }
 
     public void increment() {
-        if (count.get() == null) {
-            throw new UnsupportedOperationException("Count is not impl.");
-        }
         int current;
         int ref;
         do {
@@ -26,9 +23,6 @@ public class CASCount {
     }
 
     public int get() {
-        if (count.get() == null) {
-            throw new UnsupportedOperationException("Count is not impl.");
-        }
         return count.get();
     }
 
