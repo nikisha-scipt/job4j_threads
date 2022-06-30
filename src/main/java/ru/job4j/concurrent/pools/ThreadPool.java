@@ -7,10 +7,17 @@ import java.util.List;
 
 public class ThreadPool {
 
-    private final List<Thread> threads = new LinkedList<>();
-    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(5);
+    private final List<Thread> threads;
+    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(Runtime.getRuntime().availableProcessors());
+
+    public ThreadPool() {
+        this.threads = new LinkedList<>();
+    }
 
     public void work(Runnable job) throws InterruptedException {
+        while (!Thread.currentThread().isInterrupted()) {
+            threads.add((Thread) job);
+        }
         tasks.offer(job);
     }
 
