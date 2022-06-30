@@ -1,18 +1,16 @@
 package ru.job4j.concurrent.pools;
 
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class SearchValue<T> extends RecursiveTask<T> {
+public class SearchValue<T> extends RecursiveTask<Integer> {
 
-    private List<T> list;
+    private T[] list;
     private T value;
     private int start;
     private int finish;
 
-    public SearchValue(List<T> list, T value, int start, int finish) {
+    public SearchValue(T[] list, T value, int start, int finish) {
         this.list = list;
         this.value = value;
         this.start = start;
@@ -22,34 +20,34 @@ public class SearchValue<T> extends RecursiveTask<T> {
     public SearchValue() {
     }
 
-    private T searchInLittleArray() {
-        for (T t : list) {
-            if (t.equals(value)) {
-                return t;
+    private int searchInLittleArray() {
+        for (int i = start; i <= finish; i++) {
+            if (list[i].equals(value)) {
+                return i;
             }
         }
-        throw new NoSuchElementException("No such this element");
+        return -1;
     }
 
-    private T searchInLargeArray() {
-        int mid = (start + finish) >> 2;
+    private int searchInLargeArray() {
+        int mid = (start + finish) / 2;
         SearchValue<T> leftSearcher = new SearchValue<>(list, value, start, mid);
         SearchValue<T> rightSearcher = new SearchValue<>(list, value, mid + 1, finish);
         leftSearcher.fork();
         rightSearcher.fork();
-        T first = rightSearcher.join();
-        T second = leftSearcher.join();
-        return first.equals(second) ? first : second;
+        Integer first = rightSearcher.join();
+        Integer second = leftSearcher.join();
+        return Math.max(first, second);
     }
 
     @Override
-    protected T compute() {
-        return (finish - start) <= 10 ? searchInLargeArray() : searchInLittleArray();
+    protected Integer compute() {
+        return (finish - start) <= 10 ? searchInLittleArray() : searchInLargeArray();
     }
 
-    public T search(List<T> list, T obj) {
-        ForkJoinPool fjp = new ForkJoinPool();
-        return fjp.invoke(new SearchValue<T>(list, obj, 0, list.size() - 1));
+    public Integer search(T[] list, T obj) {
+        ForkJoinPool fork = new ForkJoinPool();
+        return fork.invoke(new SearchValue<T>(list, obj, 0, list.length - 1));
     }
 
 }
