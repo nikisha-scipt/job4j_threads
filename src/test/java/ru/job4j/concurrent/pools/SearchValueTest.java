@@ -18,7 +18,7 @@ public class SearchValueTest {
             largeList[i] = i;
         }
         for (int i = 0; i < littleList.length; i++) {
-            littleList[i] = i;;
+            littleList[i] = i;
         }
     }
 
