@@ -1,24 +1,17 @@
 package ru.job4j.concurrent.pools;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
+@RequiredArgsConstructor
 public class SearchValue<T> extends RecursiveTask<Integer> {
 
-    private T[] list;
-    private T value;
-    private int start;
-    private int finish;
-
-    public SearchValue(T[] list, T value, int start, int finish) {
-        this.list = list;
-        this.value = value;
-        this.start = start;
-        this.finish = finish;
-    }
-
-    public SearchValue() {
-    }
+    private final T[] list;
+    private final T value;
+    private final int start;
+    private final int finish;
 
     private int searchInLittleArray() {
         for (int i = start; i <= finish; i++) {
@@ -45,9 +38,9 @@ public class SearchValue<T> extends RecursiveTask<Integer> {
         return (finish - start) <= 10 ? searchInLittleArray() : searchInLargeArray();
     }
 
-    public Integer search(T[] list, T obj) {
+    public static int search(Integer[] list, int value) {
         ForkJoinPool fork = new ForkJoinPool();
-        return fork.invoke(new SearchValue<T>(list, obj, 0, list.length - 1));
+        return fork.invoke(new SearchValue<>(list, value, 0, list.length - 1));
     }
 
 }
