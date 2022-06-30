@@ -8,15 +8,12 @@ import static org.hamcrest.Matchers.is;
 
 public class SearchValueTest {
 
-    private SearchValue<Integer> searchValue;
-    private Integer[] largeList;
-    private Integer[] littleList;
+    private final SearchValue<Integer> searchValue = new SearchValue<>();
+    private final Integer[] largeList = new Integer[20];
+    private final Integer[] littleList = new Integer[9];
 
     @Before
     public void init() {
-        searchValue = new SearchValue<>();
-        largeList = new Integer[20];
-        littleList = new Integer[9];
         for (int i = 0; i < largeList.length; i++) {
             largeList[i] = i;
         }
