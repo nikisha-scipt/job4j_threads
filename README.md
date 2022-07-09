@@ -41,10 +41,10 @@
   - docker
   - kubernates
   - service definition
- 
-#Job4j
-# change README.md
 
 Объединение зафиксированных изменений
 3.4. Временное хранение. git stash. [#504832]
  
+egit file readme.md for task #124176
+a reload task #124176
+again reload
