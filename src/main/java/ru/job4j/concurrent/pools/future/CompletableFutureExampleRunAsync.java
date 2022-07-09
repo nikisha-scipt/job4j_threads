@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 public class CompletableFutureExampleRunAsync {
 
     public static void main(String[] args) throws Exception {
-        //runAsyncExample();
+        /* runAsyncExample(); */
         allOfExample();
     }
 
@@ -36,7 +36,7 @@ public class CompletableFutureExampleRunAsync {
 
     public static void runAsyncExample() throws Exception {
         CompletableFuture<Void> gtt = goToTrash();
-        // Example thenRun() -> метод выполняется после асинхронной задачи (ничего не возвращает)
+        /* Example thenRun() -> метод выполняется после асинхронной задачи (ничего не возвращает) */
         gtt.thenRun(() -> {
             int count = 0;
             System.out.println("Сын пошел мыть руки");
