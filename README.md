@@ -48,3 +48,5 @@ again reload
 egit file readme.md for task #139840
 3.1. Добавить изменения в последний коммит. [#504829]
 update#1
+update#2
+update#3
