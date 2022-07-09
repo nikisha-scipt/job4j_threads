@@ -41,16 +41,4 @@
   - docker
   - kubernates
   - service definition
-
-Объединение зафиксированных изменений
-3.4. Временное хранение. git stash. [#504832]
-5. Конфликты слияния. [#504834]
-
-egit file readme.md for task #124176
-a reload task #124176
-again reload
-egit file readme.md for task #139840
-3.1. Добавить изменения в последний коммит. [#504829]
-update#1
-update#2
-update#3
+  
