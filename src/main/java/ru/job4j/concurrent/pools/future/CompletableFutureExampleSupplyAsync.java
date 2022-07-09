@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 public class CompletableFutureExampleSupplyAsync {
 
     public static void main(String[] args) throws Exception {
-        //supplyAsyncExample();
+        /* supplyAsyncExample(); */
         anyOfExample();
     }
 
@@ -37,8 +37,8 @@ public class CompletableFutureExampleSupplyAsync {
 
     public static void supplyAsyncExample() throws Exception {
         CompletableFuture<String> bm = buyProduct("Молоко").thenApply((product) -> "Сын: я налил тебе в кружку " + product + ". Держи.");
-        // Example thenAccept() метод имеет доступ к результату CompletableFuture
-        // Example thenApply() - принимает Function мы можем произвести преобразование полученного результата результат преобразования станет доступным только при вызове get()
+        /* Example thenAccept() метод имеет доступ к результату CompletableFuture
+         Example thenApply() - принимает Function мы можем произвести преобразование полученного результата результат преобразования станет доступным только при вызове get() */
         bm.thenAccept((product) -> {
             System.out.println("Сын: Я убрал " + product + " в холодильник ");
         });
