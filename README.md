@@ -42,4 +42,5 @@
   - kubernates
   - service definition
 
-egit file readme.md for task 124176
+egit file readme.md for task #124176
+a reload task #124176
